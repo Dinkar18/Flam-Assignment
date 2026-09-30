@@ -5,12 +5,14 @@ export default function Results({
   topic,
   quizResults,
   onRetakeQuiz,
+  onRetestWrong,
   onSwitchToFlashcards,
   onNewTopic
 }) {
   const answerEntries = Object.values(quizResults || {});
   const total = answerEntries.length || 1;
   const correctCount = answerEntries.filter((a) => a.isCorrect).length;
+  const hasWrongAnswers = correctCount < total;
   const percentage = Math.round((correctCount / total) * 100);
 
   // SVG Radial Gauge Metrics
@@ -100,8 +102,19 @@ export default function Results({
             className="px-6 py-3 rounded-full font-semibold flex items-center gap-1.5 cursor-pointer text-black bg-white hover:bg-[#f5f5f7] border-transparent shadow-[0_0_16px_rgba(255,255,255,0.2)] transition-all duration-200 active:scale-[0.98]"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Retake Quiz</span>
+            <span>Retake Full Quiz</span>
           </button>
+
+          {hasWrongAnswers && (
+            <button
+              type="button"
+              onClick={onRetestWrong}
+              className="px-5 py-3 rounded-full font-medium flex items-center gap-1.5 cursor-pointer bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-300 transition-all duration-200"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>Retest Wrong Answers</span>
+            </button>
+          )}
 
           <button
             type="button"

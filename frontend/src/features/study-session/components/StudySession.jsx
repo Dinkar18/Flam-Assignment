@@ -8,16 +8,18 @@ import { STUDY_MODES } from '../../../constants';
 
 export default function StudySession({
   studySet,
+  initialMode = STUDY_MODES.FLASHCARDS,
+  subsetQuestions = null,
   onCompleteQuiz,
   onNewTopic
 }) {
-  const [activeTab, setActiveTab] = useState(STUDY_MODES.FLASHCARDS);
+  const [activeTab, setActiveTab] = useState(initialMode);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [masteredIds, setMasteredIds] = useState(new Set());
   const [quizAnswers, setQuizAnswers] = useState({});
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, type: null });
 
-  const questions = studySet?.questions || [];
+  const questions = subsetQuestions || studySet?.questions || [];
   const currentQuestion = questions[currentIndex];
 
   const handleToggleMastered = (id) => {
@@ -95,7 +97,7 @@ export default function StudySession({
         <button
           type="button"
           onClick={() => setActiveTab(STUDY_MODES.FLASHCARDS)}
-          className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
+          className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${
             activeTab === STUDY_MODES.FLASHCARDS
               ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.2)] font-bold'
               : 'text-[#86868b] hover:text-[#f5f5f7] hover:bg-white/[0.04]'
@@ -108,7 +110,7 @@ export default function StudySession({
         <button
           type="button"
           onClick={() => setActiveTab(STUDY_MODES.QUIZ)}
-          className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
+          className={`flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${
             activeTab === STUDY_MODES.QUIZ
               ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.2)] font-bold'
               : 'text-[#86868b] hover:text-[#f5f5f7] hover:bg-white/[0.04]'

@@ -1,0 +1,28 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    name: ai-study-assistant
+  codec:
+    max-in-memory-size: 10MB
+
+llm:
+  provider: ${LLM_PROVIDER:gemini}
+  api-key: ${LLM_API_KEY:}
+  model: ${LLM_MODEL:}
+  timeout-ms: 15000
+  max-attempts: 2
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    capacity: ${RATE_LIMIT_CAPACITY:10}
+    duration-minutes: ${RATE_LIMIT_DURATION_MINUTES:1}
+
+logging:
+  level:
+    com.studyassistant: INFO
+    org.springframework.web: INFO

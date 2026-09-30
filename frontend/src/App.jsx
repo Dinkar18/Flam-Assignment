@@ -8,7 +8,7 @@ import StudySession from './features/study-session/components/StudySession';
 import Results from './features/results/components/Results';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { generateStudySet, cancelActiveRequest } from './services/api';
-import { STORAGE_KEYS, VIEWS } from './constants';
+import { STORAGE_KEYS, VIEWS, STUDY_MODES } from './constants';
 
 export default function App() {
   const [studySet, setStudySet] = useLocalStorage(STORAGE_KEYS.ACTIVE_SET, null);
@@ -18,6 +18,8 @@ export default function App() {
   const [quizResults, setQuizResults] = useLocalStorage(STORAGE_KEYS.QUIZ_RESULTS, null);
   const [isNavConfirmOpen, setIsNavConfirmOpen] = useState(false);
   const [studySessionKey, setStudySessionKey] = useState(0);
+  const [sessionInitialMode, setSessionInitialMode] = useState(STUDY_MODES.FLASHCARDS);
+  const [sessionSubsetQuestions, setSessionSubsetQuestions] = useState(null);
 
   // Sync initial view if studySet was loaded from storage
   useEffect(() => {
@@ -35,6 +37,8 @@ export default function App() {
       const data = await generateStudySet(params);
       setStudySet(data);
       setQuizResults(null);
+      setSessionInitialMode(STUDY_MODES.FLASHCARDS);
+      setSessionSubsetQuestions(null);
       setStudySessionKey(prev => prev + 1);
       setView(VIEWS.STUDYING);
     } catch (err) {
@@ -70,11 +74,32 @@ export default function App() {
 
   const handleRetakeQuiz = () => {
     setQuizResults(null);
+    setSessionInitialMode(STUDY_MODES.QUIZ);
+    setSessionSubsetQuestions(null);
+    setStudySessionKey(prev => prev + 1);
+    setView(VIEWS.STUDYING);
+  };
+
+  const handleRetestWrongAnswers = () => {
+    if (!quizResults || !studySet?.questions) return;
+    
+    // quizResults is a map of questionId -> result data
+    const wrongQuestionIds = Object.entries(quizResults)
+      .filter(([id, data]) => !data.isCorrect)
+      .map(([id]) => id);
+      
+    const wrongQuestions = studySet.questions.filter(q => wrongQuestionIds.includes(q.id));
+    
+    setQuizResults(null);
+    setSessionInitialMode(STUDY_MODES.QUIZ);
+    setSessionSubsetQuestions(wrongQuestions.length > 0 ? wrongQuestions : null);
     setStudySessionKey(prev => prev + 1);
     setView(VIEWS.STUDYING);
   };
 
   const handleSwitchToFlashcards = () => {
+    setSessionInitialMode(STUDY_MODES.FLASHCARDS);
+    setSessionSubsetQuestions(null);
     setView(VIEWS.STUDYING);
   };
 
@@ -128,6 +153,8 @@ export default function App() {
           <StudySession
             key={studySessionKey}
             studySet={studySet}
+            initialMode={sessionInitialMode}
+            subsetQuestions={sessionSubsetQuestions}
             onCompleteQuiz={handleCompleteQuiz}
             onNewTopic={handleNewTopic}
           />
@@ -138,6 +165,7 @@ export default function App() {
             topic={studySet?.title || 'Study Session'}
             quizResults={quizResults}
             onRetakeQuiz={handleRetakeQuiz}
+            onRetestWrong={handleRetestWrongAnswers}
             onSwitchToFlashcards={handleSwitchToFlashcards}
             onNewTopic={handleNewTopic}
           />
