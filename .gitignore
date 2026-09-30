@@ -1,0 +1,27 @@
+# Secrets & Environment variables (NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Backend Gradle & Java
+backend/.gradle/
+backend/build/
+backend/out/
+backend/.idea/
+backend/*.iml
+
+# Frontend Node & Build
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+*.log
