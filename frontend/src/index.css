@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #000000;
+    color: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
+    overflow-x: hidden;
+  }
+}
+
+/* Apple Translucent Glass Navigation */
+.apple-glass {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Apple Luxury Glass Card with Inset Highlight */
+.apple-card-glow {
+  background: linear-gradient(180deg, rgba(20, 20, 23, 0.8) 0%, rgba(12, 12, 14, 0.9) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 20px 48px -12px rgba(0, 0, 0, 0.85);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.apple-card-glow:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 24px 48px -12px rgba(0, 0, 0, 0.9);
+}
+
+/* Radiant White Glowing Border Cards */
+.glow-border-white {
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.2) inset, 0 20px 40px rgba(0, 0, 0, 0.85);
+}
+
+.glow-border-interactive {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.glow-border-interactive:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+  transform: translateY(-2px);
+}
+
+/* Animated Border Beam Sweep */
+.border-beam-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+
+.border-beam-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0 340deg, rgba(255, 255, 255, 0.8) 360deg);
+  animation: borderSpin 6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.border-beam-inner {
+  position: relative;
+  z-index: 1;
+  background: #0d0d0f;
+  border-radius: calc(1.5rem - 1px);
+}
+
+/* Subtle Dot Grid Background */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Shimmer Border Animation */
+@keyframes borderShimmer {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.animate-shimmer {
+  animation: borderShimmer 4s ease-in-out infinite;
+}
+
+/* Material Symbols Icon Sizing */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.material-symbols-outlined.icon-sm {
+  font-size: 15px;
+}
+
+.material-symbols-outlined.icon-md {
+  font-size: 19px;
+}
+
+.material-symbols-outlined.icon-lg {
+  font-size: 24px;
+}
+
+/* Minimal Apple Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
